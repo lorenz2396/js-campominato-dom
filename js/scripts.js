@@ -55,18 +55,32 @@ function createElement(content, arr){
     newCell.classList.add('cell');
     newCell.addEventListener('click', function () {
 
-        const clickedBombs = document.querySelectorAll('.is-bomb');
-        if(clickedBombs.length == 0) // Non ho cliccato su nessuna bomba
+        const clickedBombs = document.querySelectorAll('.is-bomb');  //con all sono tutti array
+        const clickedNotBombs = document.querySelectorAll('.active:not(.is-bomb)');
+        const totalCells = document.querySelectorAll('.cell');
+        const remaingCells = totalCells.length - arr.length - clickedNotBombs.length;  // Prima di aggiunger el'ultimo click
+
+        if(clickedBombs.length == 0 && remaingCells > 0) // Non ho cliccato su nessuna bomba
         {
             // newCell.addEventListener('click', function (e) {
             console.log(this.innerText);  //che numero c'è dentro la cella, contenuto testuale cella
             this.classList.toggle('active');
 
+            console.log('Punteggio Attuale: ', clickedNotBombs.length);
+            console.log('Celle Totali: ', totalCells.length);
+            console.log('Puoi ancora cliccare su: ', remaingCells);
+
             if(arr.includes(parseInt(this.innerText))){
                 this.classList.add('is-bomb');
-                alert('Hai perso!');
+                alert('Hai perso! Hai totalizzato: ' + clickedNotBombs.length + ' punti');
                 
             }
+            else if(remaingCells == 1){
+                alert('Hai Vinto!!');
+            }
+        }
+        else{
+            console.log('Partita Terminata')
         }
     });
 
